@@ -1,0 +1,14 @@
+[project]
+name = "comfyui_changjutsu"
+description = "Helper nodes for Comfy-Changjutsu: audio gain, pitch shift, masked depth normalise, and a first-run setup check."
+version = "7.0.0"
+license = { file = "LICENSE" }
+dependencies = ["torchaudio"]
+
+[project.urls]
+Repository = "https://github.com/motioninspire/Comfy-Changjutsu"
+
+[tool.comfy]
+PublisherId = "motioninspire"
+DisplayName = "Changjutsu"
+Icon = ""

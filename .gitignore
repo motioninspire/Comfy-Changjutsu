@@ -1,0 +1,11 @@
+# never commit weights, outputs or local scratch
+*.safetensors
+*.ckpt
+*.pt
+*.onnx
+*.gguf
+output/
+__pycache__/
+*.pyc
+.DS_Store
+# keep the small example assets; add large test clips to example/.gitignore if needed

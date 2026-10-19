@@ -1,0 +1,74 @@
+{
+  "_comment": "Model files Changjutsu V7 loads. 'directory' is relative to ComfyUI/models. Sizes are approximate. DWPose weights (yolox_l.onnx, dw-ll_ucoco_384_bs5.torchscript.pt) are not listed: comfyui_controlnet_aux downloads them itself on first use into its own ckpts folder.",
+  "models": [
+    {
+      "name": "sam3.1_multiplex_fp16.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/sam3.1/resolve/main/checkpoints/sam3.1_multiplex_fp16.safetensors",
+      "directory": "checkpoints",
+      "size_gb": 1.75,
+      "used_by": "SAM3 subject / face detection (comfy-core)",
+      "license": "Meta SAM license — see upstream card"
+    },
+    {
+      "name": "depth_anything_3_mono_large.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Depth-Anything-3/resolve/main/geometry_estimation/depth_anything_3_mono_large.safetensors",
+      "directory": "geometry_estimation",
+      "size_gb": 1.34,
+      "used_by": "Depth Anything 3 (comfy-core)",
+      "license": "see ByteDance-Seed/Depth-Anything-3"
+    },
+    {
+      "name": "MelBandRoformer_fp16.safetensors",
+      "url": "https://huggingface.co/Kijai/MelBandRoFormer_comfy/resolve/main/MelBandRoformer_fp16.safetensors",
+      "directory": "diffusion_models",
+      "size_gb": 0.4,
+      "used_by": "ComfyUI-MelBandRoFormer (vocal isolation)",
+      "license": "see Kijai/MelBandRoFormer_comfy"
+    },
+    {
+      "name": "wan2.2_bernini_r_high_noise_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Bernini-R/resolve/main/diffusion_models/wan2.2_bernini_r_high_noise_fp8_scaled.safetensors",
+      "directory": "diffusion_models",
+      "size_gb": 15.6,
+      "used_by": "Bernini-R local backend (comfy-core)",
+      "optional": "only for Local: Bernini-R backend",
+      "license": "see ByteDance/Bernini-R"
+    },
+    {
+      "name": "wan2.2_bernini_r_low_noise_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Bernini-R/resolve/main/diffusion_models/wan2.2_bernini_r_low_noise_fp8_scaled.safetensors",
+      "directory": "diffusion_models",
+      "size_gb": 15.6,
+      "used_by": "Bernini-R local backend (comfy-core)",
+      "optional": "only for Local: Bernini-R backend",
+      "license": "see ByteDance/Bernini-R"
+    },
+    {
+      "name": "lightx2v_T2V_14B_cfg_step_distill_v2_lora_rank64_bf16.safetensors",
+      "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Lightx2v/lightx2v_T2V_14B_cfg_step_distill_v2_lora_rank64_bf16.safetensors",
+      "directory": "loras",
+      "size_gb": 0.75,
+      "used_by": "Bernini-R turbo mode (6 steps, cfg 1)",
+      "optional": "only for Local: Bernini-R backend with Turbo on",
+      "license": "see Kijai/WanVideo_comfy"
+    },
+    {
+      "name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "directory": "text_encoders",
+      "size_gb": 6.7,
+      "used_by": "Bernini-R text encoder",
+      "optional": "only for Local: Bernini-R backend",
+      "license": "Apache-2.0 (Wan)"
+    },
+    {
+      "name": "Wan2_1_VAE_bf16.safetensors",
+      "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Wan2_1_VAE_bf16.safetensors",
+      "directory": "vae",
+      "size_gb": 0.25,
+      "used_by": "Bernini-R VAE",
+      "optional": "only for Local: Bernini-R backend",
+      "license": "Apache-2.0 (Wan)"
+    }
+  ]
+}

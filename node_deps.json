@@ -1,0 +1,19 @@
+{
+  "_comment": "Third-party node packs the workflow needs. Pin 'commit' to the SHA you tested with before publishing; the installer checks it out when set. SAM3, Depth Anything 3, Bernini-R, the Seedance/MiniMax API nodes, Video Slice and the string/math/switch utilities are comfy-core — keep ComfyUI itself current instead.",
+  "comfyui_min_version": "REPLACE_ME (the ComfyUI version you tested on)",
+  "packs": [
+    {
+      "name": "comfyui_controlnet_aux",
+      "repo": "https://github.com/Fannovel16/comfyui_controlnet_aux",
+      "commit": "",
+      "provides": ["DWPreprocessor"],
+      "note": "DWPose weights (yolox_l.onnx, dw-ll_ucoco_384_bs5.torchscript.pt) download automatically on first run."
+    },
+    {
+      "name": "ComfyUI-MelBandRoFormer",
+      "repo": "https://github.com/kijai/ComfyUI-MelBandRoFormer",
+      "commit": "",
+      "provides": ["MelBandRoFormerModelLoader", "MelBandRoFormerSampler"]
+    }
+  ]
+}
