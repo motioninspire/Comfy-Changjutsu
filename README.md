@@ -13,7 +13,7 @@ The disguise step exists because closed APIs reject recognisable faces and finge
 ## Try it on Comfy Cloud
 `workflows/Changjutsu_V7_cloud.json` runs on [Comfy Cloud](https://cloud.comfy.org) with no install: open it there, upload a clip and two stills, queue. It is the same graph with the three `comfyui_changjutsu` nodes bypassed (Cloud cannot load third-party packs), so vocals go through un-shifted and the default disguise mode is **B**. For pitch-shifted vocals and mode G, run V7 locally.
 
-<!-- SHARE_LINK: paste the Comfy Cloud share link here -->
+**Live link:** https://cloud.comfy.org/?share=842dd8b456fc — opens the Cloud edition with example inputs loaded; anyone with the link can run it.
 
 ## Install
 
