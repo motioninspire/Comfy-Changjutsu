@@ -10,6 +10,11 @@ A ComfyUI workflow for **video motion transfer onto reference characters** — t
 
 The disguise step exists because closed APIs reject recognisable faces and fingerprinted audio, but not motion. The workflow keeps the *how* (performance, timing, lip movement) and removes the *who*.
 
+## Try it on Comfy Cloud
+`workflows/Changjutsu_V7_cloud.json` runs on [Comfy Cloud](https://cloud.comfy.org) with no install: open it there, upload a clip and two stills, queue. It is the same graph with the three `comfyui_changjutsu` nodes bypassed (Cloud cannot load third-party packs), so vocals go through un-shifted and the default disguise mode is **B**. For pitch-shifted vocals and mode G, run V7 locally.
+
+<!-- SHARE_LINK: paste the Comfy Cloud share link here -->
+
 ## Install
 
 ### Option A — ComfyUI-Manager (recommended)
@@ -75,7 +80,9 @@ Add `--with-bernini` / `-WithBernini` to also pull the local-backend models (~40
 
 ## Repo layout
 ```
-workflows/Changjutsu_V7.json            sanitized workflow (also inside the node pack as a template)
+workflows/Changjutsu_V7.json            full workflow (also inside the node pack as a template)
+workflows/Changjutsu_V7_cloud.json      Comfy Cloud edition — no custom pack, mode B default
+tools_make_cloud_variant.py             derives the cloud edition from V7
 custom_nodes/comfyui_changjutsu/        our node pack: audio gain, pitch shift, masked depth normalise, setup check
 models.json                             model files + download URLs + target folders
 node_deps.json                          third-party packs (pin commits before release)
