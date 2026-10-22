@@ -1,8 +1,8 @@
 {
  "id": "changjutsu-v7-cloud",
  "revision": 0,
- "last_node_id": 165,
- "last_link_id": 267,
+ "last_node_id": 903,
+ "last_link_id": 282,
  "nodes": [
   {
    "id": 1,
@@ -25,10 +25,10 @@
     "Node name for S&R": "MarkdownNote"
    },
    "widgets_values": [
-    "## Comfy-Changjutsu V7 — Comfy Cloud edition\n\n**Flow:** Source → Preprocess (motion disguise) → Prompt → Backend → Save.\n\n**Cloud edition:** identical to the GitHub V7 except the three `comfyui_changjutsu` nodes are bypassed (Cloud can't load third-party packs): vocals are sent un-shifted, and mode G has no in-mask normalise, so the default mode is **B**. For the full pipeline run V7 locally: github.com/motioninspire/Comfy-Changjutsu\n\n1. Load the source clip and the reference stills. Seedance 2.5 takes all of them (API cap 30); MiniMax uses `@image1..6`, Bernini `@image1..5`. Each loader's title says which backends it reaches. **Fewer references = better motion fidelity.** Seedance weighs stills against the video; a run with a few face/wardrobe crops tracked the performance frame-for-frame, one with many full-body/product shots went frontal and static. Use faces + wardrobe crops only; no full-body standing poses. Point unused loaders at any image, then **disconnect** their `fit 1024²` → backend links (or delete the loader) so the slot is empty.\n2. Set start/duration. Limits: Seedance 4–30 s · MiniMax 4–15 s · Bernini-R = frame cap (4n+1).\n3. **Motion disguise** (group 2): one SAM3 detection per subject (describe each in words), union → depth render over the real plate, logo cover. Turn it off to send the raw clip.\n4. Review `01_disguised` in the output folder before running a paid backend.\n5. Pick Mode / Preset / Backend, write the prompt, queue."
+    "## Comfy-Changjutsu V7 — Comfy Cloud edition.1\n\n**Flow:** Source → Preprocess (motion disguise) → Prompt → Backend → Save. Works with any clip: resolution, fps and length are read from the source.\n\n**First run:** queue the `Changjutsu Setup Check` node (group 0) once. It lists any missing model, node pack, ffmpeg or comfy.org login in plain text. Missing models can also be fetched from ComfyUI's download prompt when the workflow opens.\n\n**Per clip:**\n1. Pick the source video, start and duration. Limits: Seedance 4–30 s · MiniMax 4–15 s · Bernini-R = frame cap (4n+1).\n2. `@image1` is the replacement identity. Turn **USE @image2** on only when you have a second character or a second view; off = slot 2 repeats image 1, so nothing dangles. Faces + wardrobe crops work best; avoid full-body standing poses — Seedance copies posture from stills. Seedance takes up to 30 references, MiniMax 6, Bernini 5.\n3. **SUBJECT A** = `person` selects everyone in the shot; narrow it (clothing works best: `man in the red jacket`) when only one of several people should change. **SUBJECT B** is optional — leave empty to skip its SAM pass. Same for FACE A/B (mode F only).\n4. PROMPT: say who changes and which @image is theirs. The default replaces the primary foreground person with @image1 and keeps everything else.\n5. Logo patch and centre crop are off by default; enable per source if a burned-in logo or fingerprint rejection shows up.\n6. Queue once with a cheap backend or review `01_disguised` in the output folder before a paid run."
    ],
    "widgets_values_named": {
-    "text": "## Comfy-Changjutsu V7 — Comfy Cloud edition\n\n**Flow:** Source → Preprocess (motion disguise) → Prompt → Backend → Save.\n\n**Cloud edition:** identical to the GitHub V7 except the three `comfyui_changjutsu` nodes are bypassed (Cloud can't load third-party packs): vocals are sent un-shifted, and mode G has no in-mask normalise, so the default mode is **B**. For the full pipeline run V7 locally: github.com/motioninspire/Comfy-Changjutsu\n\n1. Load the source clip and the reference stills. Seedance 2.5 takes all of them (API cap 30); MiniMax uses `@image1..6`, Bernini `@image1..5`. Each loader's title says which backends it reaches. **Fewer references = better motion fidelity.** Seedance weighs stills against the video; a run with a few face/wardrobe crops tracked the performance frame-for-frame, one with many full-body/product shots went frontal and static. Use faces + wardrobe crops only; no full-body standing poses. Point unused loaders at any image, then **disconnect** their `fit 1024²` → backend links (or delete the loader) so the slot is empty.\n2. Set start/duration. Limits: Seedance 4–30 s · MiniMax 4–15 s · Bernini-R = frame cap (4n+1).\n3. **Motion disguise** (group 2): one SAM3 detection per subject (describe each in words), union → depth render over the real plate, logo cover. Turn it off to send the raw clip.\n4. Review `01_disguised` in the output folder before running a paid backend.\n5. Pick Mode / Preset / Backend, write the prompt, queue."
+    "text": "## Comfy-Changjutsu V7 — Comfy Cloud edition.1\n\n**Flow:** Source → Preprocess (motion disguise) → Prompt → Backend → Save. Works with any clip: resolution, fps and length are read from the source.\n\n**First run:** queue the `Changjutsu Setup Check` node (group 0) once. It lists any missing model, node pack, ffmpeg or comfy.org login in plain text. Missing models can also be fetched from ComfyUI's download prompt when the workflow opens.\n\n**Per clip:**\n1. Pick the source video, start and duration. Limits: Seedance 4–30 s · MiniMax 4–15 s · Bernini-R = frame cap (4n+1).\n2. `@image1` is the replacement identity. Turn **USE @image2** on only when you have a second character or a second view; off = slot 2 repeats image 1, so nothing dangles. Faces + wardrobe crops work best; avoid full-body standing poses — Seedance copies posture from stills. Seedance takes up to 30 references, MiniMax 6, Bernini 5.\n3. **SUBJECT A** = `person` selects everyone in the shot; narrow it (clothing works best: `man in the red jacket`) when only one of several people should change. **SUBJECT B** is optional — leave empty to skip its SAM pass. Same for FACE A/B (mode F only).\n4. PROMPT: say who changes and which @image is theirs. The default replaces the primary foreground person with @image1 and keeps everything else.\n5. Logo patch and centre crop are off by default; enable per source if a burned-in logo or fingerprint rejection shows up.\n6. Queue once with a cheap backend or review `01_disguised` in the output folder before a paid run."
    },
    "color": "#432",
    "bgcolor": "#653"
@@ -349,7 +349,7 @@
    ],
    "size": [
     340,
-    106
+    124
    ],
    "flags": {},
    "order": 74,
@@ -374,9 +374,9 @@
       41,
       47,
       71,
+      115,
       105,
-      107,
-      115
+      107
      ]
     },
     {
@@ -390,9 +390,9 @@
       42,
       48,
       72,
+      116,
       106,
-      108,
-      116
+      108
      ]
     },
     {
@@ -461,7 +461,7 @@
      "links": []
     }
    ],
-   "title": "@image1 — character A (left performer)  [Seedance·MiniMax·Bernini]",
+   "title": "@image1 — replacement identity  [Seedance·MiniMax·Bernini]",
    "properties": {
     "Node name for S&R": "LoadImage"
    },
@@ -543,7 +543,8 @@
       169,
       174,
       183,
-      214
+      214,
+      281
      ]
     }
    ],
@@ -616,7 +617,7 @@
      "links": []
     }
    ],
-   "title": "@image2 — character B (right performer)  [Seedance·MiniMax·Bernini]",
+   "title": "@image2 — optional second character / view  [Seedance·MiniMax·Bernini]",
    "properties": {
     "Node name for S&R": "LoadImage"
    },
@@ -695,10 +696,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      170,
-      175,
-      184,
-      215
+      280
      ]
     }
    ],
@@ -742,10 +740,10 @@
     "Node name for S&R": "MarkdownNote"
    },
    "widgets_values": [
-    "**Why:** closed APIs reject recognisable faces/music but not motion. Keep the *how*, remove the *who*.\n\n- **Subjects:** the SAM3 video model tracks ONE text-prompted instance, so each person gets its own detection. Describe them (clothing works best); the masks are unioned, then padded.\n- **Depth:** Depth Anything 3 `depth_colored` pass, scaled to source size, composited only inside the people mask — the real backdrop stays so the model stops tracing a silhouette.\n- **Skeleton:** DWPose body + hand + face keypoints, drawn over the depth people (modes B, E, G). This is what carries lip and eye motion.\n- **Logo cover:** flat patch at a burned-in logo. Set x/y/size per source; set patch size to 1×1 if there is no logo.\n- **Audio (lip-sync):** `AUDIO TO API` → *disguised vocals*: Mel-Band RoFormer isolates the vocals, they are embedded (un-shifted on Cloud; the local V7 pitch-shifts them +3 st) in the disguised clip, so the model hears speech to lip-sync to without the audio fingerprint matching the record. *none* = silent (mouths will be invented). The final `02_result` is always re-muxed with the untouched original audio.\n- Cloud edition: no custom node pack needed."
+    "**Why:** closed APIs reject recognisable faces/music but not motion. Keep the *how*, remove the *who*.\n\n- **Subjects:** SAM3 tracks one text-prompted instance per pass. `person` catches every person; describe clothing to isolate one. Subject B / Face B run only when their selector is non-empty. Masks are unioned, then padded.\n- **Depth:** Depth Anything 3 pass, scaled to source size, composited inside the people mask — the real backdrop stays so the model stops tracing a silhouette.\n- **Skeleton:** DWPose body + hand + face keypoints drawn on top (modes B, E, G). This is what carries lip and eye motion.\n- **Logo cover:** opacity 0 = off. Set size/position per source when a burned-in logo needs covering.\n- **Centre crop:** optional 8 % crop against fingerprint matching; off keeps the source framing.\n- **Audio:** `AUDIO TO API` → *disguised vocals*: Mel-Band RoFormer isolates vocals, normalise + pitch shift (+3 st) so the model hears speech to lip-sync to without the fingerprint matching. The final `02_result` is always re-muxed with the untouched original audio.\n- Needs the `comfyui_changjutsu` node pack (pitch shift / gain / masked depth normalise / setup check) in `custom_nodes`."
    ],
    "widgets_values_named": {
-    "text": "**Why:** closed APIs reject recognisable faces/music but not motion. Keep the *how*, remove the *who*.\n\n- **Subjects:** the SAM3 video model tracks ONE text-prompted instance, so each person gets its own detection. Describe them (clothing works best); the masks are unioned, then padded.\n- **Depth:** Depth Anything 3 `depth_colored` pass, scaled to source size, composited only inside the people mask — the real backdrop stays so the model stops tracing a silhouette.\n- **Skeleton:** DWPose body + hand + face keypoints, drawn over the depth people (modes B, E, G). This is what carries lip and eye motion.\n- **Logo cover:** flat patch at a burned-in logo. Set x/y/size per source; set patch size to 1×1 if there is no logo.\n- **Audio (lip-sync):** `AUDIO TO API` → *disguised vocals*: Mel-Band RoFormer isolates the vocals, they are embedded (un-shifted on Cloud; the local V7 pitch-shifts them +3 st) in the disguised clip, so the model hears speech to lip-sync to without the audio fingerprint matching the record. *none* = silent (mouths will be invented). The final `02_result` is always re-muxed with the untouched original audio.\n- Cloud edition: no custom node pack needed."
+    "text": "**Why:** closed APIs reject recognisable faces/music but not motion. Keep the *how*, remove the *who*.\n\n- **Subjects:** SAM3 tracks one text-prompted instance per pass. `person` catches every person; describe clothing to isolate one. Subject B / Face B run only when their selector is non-empty. Masks are unioned, then padded.\n- **Depth:** Depth Anything 3 pass, scaled to source size, composited inside the people mask — the real backdrop stays so the model stops tracing a silhouette.\n- **Skeleton:** DWPose body + hand + face keypoints drawn on top (modes B, E, G). This is what carries lip and eye motion.\n- **Logo cover:** opacity 0 = off. Set size/position per source when a burned-in logo needs covering.\n- **Centre crop:** optional 8 % crop against fingerprint matching; off keeps the source framing.\n- **Audio:** `AUDIO TO API` → *disguised vocals*: Mel-Band RoFormer isolates vocals, normalise + pitch shift (+3 st) so the model hears speech to lip-sync to without the fingerprint matching. The final `02_result` is always re-muxed with the untouched original audio.\n- Needs the `comfyui_changjutsu` node pack (pitch shift / gain / masked depth normalise / setup check) in `custom_nodes`."
    },
    "color": "#432",
    "bgcolor": "#653"
@@ -799,7 +797,9 @@
      "name": "MASK",
      "type": "MASK",
      "links": [
-      12
+      12,
+      271,
+      277
      ]
     }
    ],
@@ -873,19 +873,19 @@
      ]
     }
    ],
-   "title": "Logo cover — patch size",
+   "title": "Optional logo patch — opacity 0 = OFF; configure for each source",
    "properties": {
     "Node name for S&R": "SolidMask"
    },
    "widgets_values": [
-    1,
-    1,
-    1
+    0.0,
+    130,
+    170
    ],
    "widgets_values_named": {
-    "value": 1,
-    "width": 1,
-    "height": 1
+    "value": 0.0,
+    "width": 130,
+    "height": 170
    },
    "color": "#232",
    "bgcolor": "#353"
@@ -1034,7 +1034,7 @@
      ]
     }
    ],
-   "title": "Logo cover — fill colour (orange)",
+   "title": "Optional logo patch colour — match the CURRENT source if enabled",
    "properties": {
     "Node name for S&R": "EmptyImage"
    },
@@ -1123,14 +1123,14 @@
      "links": [
       20,
       23,
-      29,
       36,
       39,
       49,
       58,
       61,
       66,
-      75
+      75,
+      29
      ]
     }
    ],
@@ -1260,15 +1260,15 @@
      ]
     }
    ],
-   "title": "SUBJECT A — describe (clothing works best)",
+   "title": "SUBJECT A — all people by default; narrow to your source target if needed",
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    "person on the left"
+    "person"
    ],
    "widgets_values_named": {
-    "text": "person on the left"
+    "text": "person"
    },
    "color": "#232",
    "bgcolor": "#353"
@@ -1417,7 +1417,7 @@
      "widget": {
       "name": "text"
      },
-     "link": null
+     "link": 268
     }
    ],
    "outputs": [
@@ -1430,15 +1430,15 @@
      ]
     }
    ],
-   "title": "SUBJECT B — describe (leave empty if one person)",
+   "title": "SUBJECT B encoding — optional selector below SOURCE & REFERENCES",
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    "person on the right"
+    ""
    ],
    "widgets_values_named": {
-    "text": "person on the right"
+    "text": ""
    },
    "color": "#232",
    "bgcolor": "#353"
@@ -1532,7 +1532,7 @@
      "name": "masks",
      "type": "MASK",
      "links": [
-      26
+      270
      ]
     },
     {
@@ -1584,7 +1584,7 @@
      "localized_name": "source",
      "name": "source",
      "type": "MASK",
-     "link": 26
+     "link": 273
     },
     {
      "localized_name": "x",
@@ -2082,7 +2082,7 @@
      "localized_name": "images",
      "name": "images",
      "type": "IMAGE",
-     "links": null
+     "links": []
     }
    ],
    "title": "PREVIEW: people mask",
@@ -2851,15 +2851,15 @@
      ]
     }
    ],
-   "title": "FACE A — describe (mode F)",
+   "title": "FACE A — all faces by default; narrow if using head-only mode",
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    "face of the person on the left"
+    "face"
    ],
    "widgets_values_named": {
-    "text": "face of the person on the left"
+    "text": "face"
    },
    "color": "#232",
    "bgcolor": "#353"
@@ -3008,7 +3008,7 @@
      "widget": {
       "name": "text"
      },
-     "link": null
+     "link": 274
     }
    ],
    "outputs": [
@@ -3021,15 +3021,15 @@
      ]
     }
    ],
-   "title": "FACE B — describe (mode F)",
+   "title": "FACE B encoding — optional selector below SOURCE & REFERENCES",
    "properties": {
     "Node name for S&R": "CLIPTextEncode"
    },
    "widgets_values": [
-    "face of the person on the right"
+    ""
    ],
    "widgets_values_named": {
-    "text": "face of the person on the right"
+    "text": ""
    },
    "color": "#232",
    "bgcolor": "#353"
@@ -3123,7 +3123,7 @@
      "name": "masks",
      "type": "MASK",
      "links": [
-      64
+      276
      ]
     },
     {
@@ -3175,7 +3175,7 @@
      "localized_name": "source",
      "name": "source",
      "type": "MASK",
-     "link": 64
+     "link": 279
     },
     {
      "localized_name": "x",
@@ -4699,15 +4699,15 @@
      ]
     }
    ],
-   "title": "ANTI-FINGERPRINT (8% centre crop)",
+   "title": "Optional 8% centre crop — OFF preserves source framing",
    "properties": {
     "Node name for S&R": "PrimitiveBoolean"
    },
    "widgets_values": [
-    true
+    false
    ],
    "widgets_values_named": {
-    "value": true
+    "value": false
    },
    "color": "#232",
    "bgcolor": "#353"
@@ -5289,7 +5289,7 @@
      "localized_name": "images",
      "name": "images",
      "type": "IMAGE",
-     "links": null
+     "links": []
     }
    ],
    "title": "PREVIEW: disguised frames",
@@ -6001,10 +6001,10 @@
      "name": "output",
      "type": "VIDEO",
      "links": [
+      266,
       171,
       176,
-      265,
-      266
+      265
      ]
     }
    ],
@@ -6325,10 +6325,10 @@
     "Node name for S&R": "PrimitiveStringMultiline"
    },
    "widgets_values": [
-    "Replace the person on the left with the person from @image1. Replace the person on the right with the person from @image2.\n\nKeep the exact performance, lip movement and hand gestures from @video1. Keep the camera the same as @video1. Keep the background and set dressing from @video1."
+    "Replace the primary foreground person in @video1 with the person shown in @image1. Preserve other subjects unless explicitly requested. Use the reference for identity, hairstyle, glasses and wardrobe, not its pose or background. Preserve the source performance, gestures, head movement, camera, framing, lighting, setting and timing. Match visible mouth movement and supplied speech where available; do not invent dialogue. Treat any additional connected reference images as alternate views of the same replacement identity unless a different subject assignment is explicitly stated."
    ],
    "widgets_values_named": {
-    "value": "Replace the person on the left with the person from @image1. Replace the person on the right with the person from @image2.\n\nKeep the exact performance, lip movement and hand gestures from @video1. Keep the camera the same as @video1. Keep the background and set dressing from @video1."
+    "value": "Replace the primary foreground person in @video1 with the person shown in @image1. Preserve other subjects unless explicitly requested. Use the reference for identity, hairstyle, glasses and wardrobe, not its pose or background. Preserve the source performance, gestures, head movement, camera, framing, lighting, setting and timing. Match visible mouth movement and supplied speech where available; do not invent dialogue. Treat any additional connected reference images as alternate views of the same replacement identity unless a different subject assignment is explicitly stated."
    },
    "color": "#322",
    "bgcolor": "#533"
@@ -6373,10 +6373,10 @@
     "Node name for S&R": "PrimitiveStringMultiline"
    },
    "widgets_values": [
-    "{\n \"Motion transfer\": \"Video 1 is a motion reference: the two figures in it are real people shown as silhouettes with pose lines. Reproduce their exact body motion, head turns, leaning, hand gestures and mouth movement frame by frame with the same timing; lip-sync precisely to the voices in Video 1's audio; keep the camera exactly as in Video 1 (same framing, no added camera movement). Rebuild the people, wardrobe and look from the reference images and this description:\",\n \"Objects swap\": \"Edit Video 1. Change only what is described here and keep everything else (people, background, motion, camera, lighting and timing) exactly as filmed:\"\n}"
+    "{\n  \"Motion transfer\": \"Treat Video 1 as the source performance and motion guide. Follow the number of subjects actually visible in this clip; do not assume a fixed subject count. Preserve their body motion, gestures, head turns, facial performance, interactions, timing, camera movement and framing unless the requested edit explicitly changes them. If the guide contains depth, silhouettes, pose lines or face mesh, use those only as movement guidance and reconstruct natural appearance without those artifacts. Use reference images for the requested identity or appearance, not as replacement poses or backgrounds. Preserve the source setting and lighting unless the edit or selected preset requests a change. Follow source speech when audio is supplied; a silent guide does not supply dialogue. Apply the following requested edit:\",\n  \"Objects swap\": \"Edit Video 1. Change only what is described here and keep everything else (people, background, motion, camera, lighting and timing) exactly as filmed:\"\n}"
    ],
    "widgets_values_named": {
-    "value": "{\n \"Motion transfer\": \"Video 1 is a motion reference: the two figures in it are real people shown as silhouettes with pose lines. Reproduce their exact body motion, head turns, leaning, hand gestures and mouth movement frame by frame with the same timing; lip-sync precisely to the voices in Video 1's audio; keep the camera exactly as in Video 1 (same framing, no added camera movement). Rebuild the people, wardrobe and look from the reference images and this description:\",\n \"Objects swap\": \"Edit Video 1. Change only what is described here and keep everything else (people, background, motion, camera, lighting and timing) exactly as filmed:\"\n}"
+    "value": "{\n  \"Motion transfer\": \"Treat Video 1 as the source performance and motion guide. Follow the number of subjects actually visible in this clip; do not assume a fixed subject count. Preserve their body motion, gestures, head turns, facial performance, interactions, timing, camera movement and framing unless the requested edit explicitly changes them. If the guide contains depth, silhouettes, pose lines or face mesh, use those only as movement guidance and reconstruct natural appearance without those artifacts. Use reference images for the requested identity or appearance, not as replacement poses or backgrounds. Preserve the source setting and lighting unless the edit or selected preset requests a change. Follow source speech when audio is supplied; a silent guide does not supply dialogue. Apply the following requested edit:\",\n  \"Objects swap\": \"Edit Video 1. Change only what is described here and keep everything else (people, background, motion, camera, lighting and timing) exactly as filmed:\"\n}"
    },
    "color": "#322",
    "bgcolor": "#533"
@@ -6421,10 +6421,10 @@
     "Node name for S&R": "PrimitiveStringMultiline"
    },
    "widgets_values": [
-    "{\n \"Motion transfer\": \"Keep the exact motion, camera movement, framing and timing of the source video. Rebuild the subjects, location and look as described:\",\n \"Objects swap\": \"Change only what is described. Keep pose, framing, lighting, background and motion unchanged:\"\n}"
+    "{\n  \"Motion transfer\": \"Preserve the source video's visible subject count, individual movements, gestures, facial performance, camera motion, framing and timing unless explicitly changed. Apply reference images to identity or appearance, not the reference pose or background. Reconstruct any depth/pose/mesh guidance naturally. Preserve the source location and lighting unless the edit or preset changes them. Requested edit:\",\n  \"Objects swap\": \"Change only what is described. Keep pose, framing, lighting, background and motion unchanged:\"\n}"
    ],
    "widgets_values_named": {
-    "value": "{\n \"Motion transfer\": \"Keep the exact motion, camera movement, framing and timing of the source video. Rebuild the subjects, location and look as described:\",\n \"Objects swap\": \"Change only what is described. Keep pose, framing, lighting, background and motion unchanged:\"\n}"
+    "value": "{\n  \"Motion transfer\": \"Preserve the source video's visible subject count, individual movements, gestures, facial performance, camera motion, framing and timing unless explicitly changed. Apply reference images to identity or appearance, not the reference pose or background. Reconstruct any depth/pose/mesh guidance naturally. Preserve the source location and lighting unless the edit or preset changes them. Requested edit:\",\n  \"Objects swap\": \"Change only what is described. Keep pose, framing, lighting, background and motion unchanged:\"\n}"
    },
    "color": "#322",
    "bgcolor": "#533"
@@ -8115,7 +8115,7 @@
    ],
    "size": [
     380,
-    560
+    562
    ],
    "flags": {},
    "order": 145,
@@ -9176,8 +9176,8 @@
      "name": "VAE",
      "type": "VAE",
      "links": [
-      212,
-      238
+      238,
+      212
      ]
     }
    ],
@@ -11246,7 +11246,7 @@
      "localized_name": "images",
      "name": "images",
      "type": "IMAGE",
-     "links": null
+     "links": []
     }
    ],
    "title": "PREVIEW: generated frames",
@@ -11302,8 +11302,8 @@
      "name": "fps",
      "type": "FLOAT",
      "links": [
-      254,
-      262
+      262,
+      254
      ]
     },
     {
@@ -11335,7 +11335,7 @@
    ],
    "size": [
     340,
-    106
+    124
    ],
    "flags": {},
    "order": 158,
@@ -11873,31 +11873,502 @@
      "localized_name": "audio",
      "name": "audio",
      "type": "AUDIO",
-     "links": null
+     "links": []
     },
     {
      "localized_name": "fps",
      "name": "fps",
      "type": "FLOAT",
-     "links": null
+     "links": []
     },
     {
      "localized_name": "bit_depth",
      "name": "bit_depth",
      "type": "COMBO",
-     "links": null
+     "links": []
     },
     {
      "localized_name": "color_space",
      "name": "color_space",
      "type": "COMBO",
-     "links": null
+     "links": []
     }
    ],
    "properties": {
     "Node name for S&R": "GetVideoComponents"
    },
    "title": "Source frames → Bernini"
+  },
+  {
+   "id": 166,
+   "type": "PrimitiveStringMultiline",
+   "pos": [
+    0,
+    1100
+   ],
+   "size": [
+    360,
+    220
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "value",
+     "name": "value",
+     "type": "STRING",
+     "widget": {
+      "name": "value"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "STRING",
+     "name": "STRING",
+     "type": "STRING",
+     "links": [
+      268,
+      269
+     ]
+    }
+   ],
+   "title": "SUBJECT B — OPTIONAL; empty = skip this detection",
+   "properties": {
+    "Node name for S&R": "PrimitiveStringMultiline"
+   },
+   "widgets_values": [
+    ""
+   ],
+   "widgets_values_named": {
+    "value": ""
+   },
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 167,
+   "type": "StringCompare",
+   "pos": [
+    420,
+    1100
+   ],
+   "size": [
+    340,
+    190
+   ],
+   "flags": {},
+   "order": 48,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "string_a",
+     "name": "string_a",
+     "type": "STRING",
+     "widget": {
+      "name": "string_a"
+     },
+     "link": 269
+    },
+    {
+     "localized_name": "string_b",
+     "name": "string_b",
+     "type": "STRING",
+     "widget": {
+      "name": "string_b"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "mode",
+     "name": "mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "mode"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "case_sensitive",
+     "name": "case_sensitive",
+     "type": "BOOLEAN",
+     "widget": {
+      "name": "case_sensitive"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "BOOLEAN",
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": [
+      272
+     ]
+    }
+   ],
+   "title": "SUBJECT B is empty?",
+   "properties": {
+    "Node name for S&R": "StringCompare"
+   },
+   "widgets_values": [
+    "",
+    "",
+    "Equal",
+    true
+   ],
+   "widgets_values_named": {
+    "string_a": "",
+    "string_b": "",
+    "mode": "Equal",
+    "case_sensitive": true
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 168,
+   "type": "ComfySwitchNode",
+   "pos": [
+    820,
+    1100
+   ],
+   "size": [
+    340,
+    110
+   ],
+   "flags": {},
+   "order": 129,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "on_false",
+     "name": "on_false",
+     "shape": 7,
+     "type": "MASK",
+     "link": 270
+    },
+    {
+     "localized_name": "on_true",
+     "name": "on_true",
+     "shape": 7,
+     "type": "MASK",
+     "link": 271
+    },
+    {
+     "localized_name": "switch",
+     "name": "switch",
+     "type": "BOOLEAN",
+     "widget": {
+      "name": "switch"
+     },
+     "link": 272
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "output",
+     "name": "output",
+     "type": "MASK",
+     "links": [
+      273
+     ]
+    }
+   ],
+   "title": "SUBJECT B mask — empty selector bypasses SAM",
+   "properties": {
+    "Node name for S&R": "ComfySwitchNode"
+   },
+   "widgets_values": [
+    false
+   ],
+   "widgets_values_named": {
+    "switch": false
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 169,
+   "type": "PrimitiveStringMultiline",
+   "pos": [
+    0,
+    1510
+   ],
+   "size": [
+    360,
+    220
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "value",
+     "name": "value",
+     "type": "STRING",
+     "widget": {
+      "name": "value"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "STRING",
+     "name": "STRING",
+     "type": "STRING",
+     "links": [
+      274,
+      275
+     ]
+    }
+   ],
+   "title": "FACE B — OPTIONAL; empty = skip this detection",
+   "properties": {
+    "Node name for S&R": "PrimitiveStringMultiline"
+   },
+   "widgets_values": [
+    ""
+   ],
+   "widgets_values_named": {
+    "value": ""
+   },
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 170,
+   "type": "StringCompare",
+   "pos": [
+    420,
+    1510
+   ],
+   "size": [
+    340,
+    190
+   ],
+   "flags": {},
+   "order": 48,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "string_a",
+     "name": "string_a",
+     "type": "STRING",
+     "widget": {
+      "name": "string_a"
+     },
+     "link": 275
+    },
+    {
+     "localized_name": "string_b",
+     "name": "string_b",
+     "type": "STRING",
+     "widget": {
+      "name": "string_b"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "mode",
+     "name": "mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "mode"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "case_sensitive",
+     "name": "case_sensitive",
+     "type": "BOOLEAN",
+     "widget": {
+      "name": "case_sensitive"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "BOOLEAN",
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": [
+      278
+     ]
+    }
+   ],
+   "title": "FACE B is empty?",
+   "properties": {
+    "Node name for S&R": "StringCompare"
+   },
+   "widgets_values": [
+    "",
+    "",
+    "Equal",
+    true
+   ],
+   "widgets_values_named": {
+    "string_a": "",
+    "string_b": "",
+    "mode": "Equal",
+    "case_sensitive": true
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 171,
+   "type": "ComfySwitchNode",
+   "pos": [
+    820,
+    1510
+   ],
+   "size": [
+    340,
+    110
+   ],
+   "flags": {},
+   "order": 129,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "on_false",
+     "name": "on_false",
+     "shape": 7,
+     "type": "MASK",
+     "link": 276
+    },
+    {
+     "localized_name": "on_true",
+     "name": "on_true",
+     "shape": 7,
+     "type": "MASK",
+     "link": 277
+    },
+    {
+     "localized_name": "switch",
+     "name": "switch",
+     "type": "BOOLEAN",
+     "widget": {
+      "name": "switch"
+     },
+     "link": 278
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "output",
+     "name": "output",
+     "type": "MASK",
+     "links": [
+      279
+     ]
+    }
+   ],
+   "title": "FACE B mask — empty selector bypasses SAM",
+   "properties": {
+    "Node name for S&R": "ComfySwitchNode"
+   },
+   "widgets_values": [
+    false
+   ],
+   "widgets_values_named": {
+    "switch": false
+   },
+   "color": "#232",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 902,
+   "type": "PrimitiveBoolean",
+   "pos": [
+    618.2069241530135,
+    248.7043790867467
+   ],
+   "size": [
+    300,
+    58
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "BOOLEAN",
+     "type": "BOOLEAN",
+     "links": [
+      282
+     ]
+    }
+   ],
+   "title": "USE @image2?  off = slot 2 repeats @image1",
+   "properties": {
+    "Node name for S&R": "PrimitiveBoolean"
+   },
+   "widgets_values": [
+    false
+   ],
+   "color": "#223",
+   "bgcolor": "#335"
+  },
+  {
+   "id": 903,
+   "type": "ComfySwitchNode",
+   "pos": [
+    948.2069241530135,
+    478.7043790867467
+   ],
+   "size": [
+    240,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "switch",
+     "type": "BOOLEAN",
+     "link": 282
+    },
+    {
+     "name": "on_true",
+     "type": "IMAGE",
+     "link": 280
+    },
+    {
+     "name": "on_false",
+     "type": "IMAGE",
+     "link": 281
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "IMAGE",
+     "links": [
+      170,
+      175,
+      184,
+      215
+     ]
+    }
+   ],
+   "title": "@image2 slot → backends",
+   "properties": {
+    "Node name for S&R": "ComfySwitchNode"
+   },
+   "widgets_values": [
+    false
+   ],
+   "color": "#223",
+   "bgcolor": "#335"
   }
  ],
  "links": [
@@ -12099,14 +12570,6 @@
    0,
    23,
    0,
-   "MASK"
-  ],
-  [
-   26,
-   22,
-   0,
-   23,
-   1,
    "MASK"
   ],
   [
@@ -12379,14 +12842,6 @@
    0,
    43,
    0,
-   "MASK"
-  ],
-  [
-   64,
-   42,
-   0,
-   43,
-   1,
    "MASK"
   ],
   [
@@ -13815,7 +14270,7 @@
   ],
   [
    170,
-   11,
+   903,
    0,
    111,
    9,
@@ -13855,7 +14310,7 @@
   ],
   [
    175,
-   11,
+   903,
    0,
    112,
    9,
@@ -13895,7 +14350,7 @@
   ],
   [
    184,
-   11,
+   903,
    0,
    115,
    6,
@@ -13951,7 +14406,7 @@
   ],
   [
    215,
-   11,
+   903,
    0,
    143,
    6,
@@ -13980,6 +14435,126 @@
    143,
    12,
    "INT"
+  ],
+  [
+   268,
+   166,
+   0,
+   21,
+   1,
+   "STRING"
+  ],
+  [
+   269,
+   166,
+   0,
+   167,
+   0,
+   "STRING"
+  ],
+  [
+   270,
+   22,
+   0,
+   168,
+   0,
+   "MASK"
+  ],
+  [
+   271,
+   13,
+   0,
+   168,
+   1,
+   "MASK"
+  ],
+  [
+   272,
+   167,
+   0,
+   168,
+   2,
+   "BOOLEAN"
+  ],
+  [
+   273,
+   168,
+   0,
+   23,
+   1,
+   "MASK"
+  ],
+  [
+   274,
+   169,
+   0,
+   41,
+   1,
+   "STRING"
+  ],
+  [
+   275,
+   169,
+   0,
+   170,
+   0,
+   "STRING"
+  ],
+  [
+   276,
+   42,
+   0,
+   171,
+   0,
+   "MASK"
+  ],
+  [
+   277,
+   13,
+   0,
+   171,
+   1,
+   "MASK"
+  ],
+  [
+   278,
+   170,
+   0,
+   171,
+   2,
+   "BOOLEAN"
+  ],
+  [
+   279,
+   171,
+   0,
+   43,
+   1,
+   "MASK"
+  ],
+  [
+   280,
+   11,
+   0,
+   903,
+   1,
+   "IMAGE"
+  ],
+  [
+   281,
+   9,
+   0,
+   903,
+   2,
+   "IMAGE"
+  ],
+  [
+   282,
+   902,
+   0,
+   903,
+   0,
+   "BOOLEAN"
   ]
  ],
  "groups": [
@@ -14065,6 +14640,18 @@
     1782
    ],
    "color": "#59405a",
+   "flags": {}
+  },
+  {
+   "id": 8,
+   "title": "PER-SOURCE OPTIONAL SELECTORS — empty = no second detection",
+   "bounding": [
+    -30,
+    1030,
+    1240,
+    790
+   ],
+   "color": "#3f5940",
    "flags": {}
   }
  ],

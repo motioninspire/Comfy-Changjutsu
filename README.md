@@ -1,4 +1,4 @@
-# Comfy-Changjutsu
+# Comfy-Changjutsu (V7.1)
 
 A ComfyUI workflow for **video motion transfer onto reference characters** — the open rebuild of the "Genjutsu"-style tool. Feed it a source clip and a couple of reference stills; it strips identity from the clip (depth + skeleton "motion disguise"), builds the prompt, and sends the result to the backend you pick:
 
@@ -38,6 +38,14 @@ Add `--with-bernini` / `-WithBernini` to also pull the local-backend models (~40
 - `ffmpeg` on PATH
 - For the API backends: log in to comfy.org inside ComfyUI (top-right menu) and have credits
 - Third-party node packs (auto-installed by Manager or the script): `comfyui_controlnet_aux`, `ComfyUI-MelBandRoFormer`
+
+## Using it on your own clip
+Nothing is tied to one source: resolution, fps and length are read from the video. Per clip you set:
+- **Source** start/duration (Seedance 4–30 s, MiniMax 4–15 s, Bernini-R frame cap).
+- **@image1** = the replacement identity. **USE @image2** on only for a second character or second view; off, slot 2 repeats image 1 so no backend receives an empty input.
+- **SUBJECT A** `person` selects everyone; narrow by clothing (`man in the red jacket`) to change one person among several. **SUBJECT B** optional — empty skips its SAM pass. FACE A/B same (mode F only).
+- **PROMPT**: who changes and which @image is theirs. Default replaces the primary foreground person with @image1.
+- Logo patch and centre crop are off by default; enable per source.
 
 ## First run
 1. Queue **Changjutsu Setup Check**. It reports missing models, node packs, ffmpeg and API login as text instead of a stack trace.
